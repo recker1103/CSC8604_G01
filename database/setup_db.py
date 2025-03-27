@@ -4,14 +4,14 @@ import os
 DATABASE = "database/quiz_data.db"
 
 def init_db():
-    # Delete old database if it exists
+    
     if os.path.exists(DATABASE):
         os.remove(DATABASE)
 
     conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
 
-    # Create questions table with set_id
+  
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS questions (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -22,7 +22,7 @@ def init_db():
     )
     """)
 
-    # Create responses table (Includes timestamps for tracking multiple attempts)
+    
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS responses (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -34,9 +34,9 @@ def init_db():
     )
     """)
 
-    # Insert updated sample questions for both sets
+    
     sample_questions = [
-        # Question Set 1: App Permissions & Security
+      
         ("A flashlight app asks for camera and microphone access.", 
          "Accept—it probably needs them.", 
          "Deny and check if the permissions make sense.", 1),
@@ -79,13 +79,12 @@ def init_db():
          "Check if location sharing is necessary for app features.", 2),
     ]
 
-    # Insert questions into the database
-    cursor.executemany(
+    cursor. executemany(
         "INSERT INTO questions (question, left_choice, right_choice, set_id) VALUES (?, ?, ?, ?)",
         sample_questions
     )
 
-    # Check inserted questions
+    
     cursor.execute("SELECT COUNT(*) FROM questions WHERE set_id = 1")
     set1_count = cursor.fetchone()[0]
     
